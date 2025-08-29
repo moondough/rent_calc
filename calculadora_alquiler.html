@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Early hints for critical resources -->
+    <link rel="preload" href="css/main.css" as="style">
+    
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://actionnetwork.org" crossorigin>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="Rent Calculator">
+    <meta name="description" content="Calculate your rent increases under different policies">
+    <meta name="keywords" content="LA Rent Calculator, rent increase calculator, DSA LA, Los Angeles rent, housing policy, rent control, tenant rights">
+    <meta name="theme-color" content="#1D3557">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dsa-la.org/">
+    <meta property="og:title" content="Rent Calculator">
+    <meta property="og:description" content="Calculate your rent increases under different policies">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Rent Calculator">
+    <meta property="twitter:description" content="LA Rent Calculator - Calculate your rent increases under different policies">
+    <meta property="twitter:image" content="https://moondough.i234.me/images/hero-image.png">
+    <link rel="canonical" href="https://moondough.i234.me/home.html" />
+    <title>LA Rent Calculador</title> 
+    <link rel="preload" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Work+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/rent_calc.css">
+    <style>
+        :root {
+            --dsa-red: #EC1F27;
+            --dsa-black: #231F20;
+            --dsa-white: #ffffff;
+            --dsa-gray: #3B3838;
+            --dark-red: #6d1a20;
+            --dark-blue: #1D3557;
+            --dark-green: #045319;
+            --dark-gold: #8b6b00;
+            --light-red: #FF6B6B;
+            --light-green: #6BCB77;
+            --light-gold: #F0E68C;
+            --neon: #39FF14;
+            --gold: #FFD700;
+            --dark: #333333;
+            --light: #F0F0F0;
+            --light-blue: #A8DADC;
+            --dsa-gray-light: #8C8989;
+            
+        }
+
+        .site-header {
+            background: var(--dsa-white);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .utilities-group {
+            display: flex;
+            flex-direction: row; 
+            color: #231F20;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .utilities-group label {
+            color: var(--light-green);
+            font-size: 0.9rem;
+        }
+        .options-text {
+            font-size: 0.9rem;
+            color: var(--light-gold);
+            margin-bottom: 0.5rem;
+        }
+        .header-container {
+            margin: 0 auto;
+            margin-right: 5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 90px;
+        }
+
+        .site-logo {
+            margin-left: 1rem;
+            height: 80px;
+        }
+
+        
+
+        .main-nav {
+            display: flex;
+            gap: 2rem;
+            margin-top: -4.5rem;
+            color: #000;
+        }
+
+        .main-nav a {
+            color: var(--dsa-black);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .main-nav a:hover::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--dsa-red);
+        }
+
+        .secondary-nav {
+            display: flex;
+            gap: 2rem;
+            margin-top: -1rem;
+            justify-content: flex-end;
+            margin-right: 5rem;
+            margin-top: -4rem;
+            color: #000;
+        }
+
+        .secondary-nav a {
+            color: var(--dsa-black);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .secondary-nav a:hover::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--dsa-red);
+        }
+        .menu-toggle {
+            display: none;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--dsa-white);
+            color: var(--dsa-black);
+        }
+
+        header {
+            background: var(--dsa-black);
+            padding: 1rem;
+        }
+
+        .policy-summary-box {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem; justify-content: center;
+            background: var(--light-blue);
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+            text-align: center;
+            margin-left: 4rem;
+            margin-right: 5rem;
+            margin-bottom: 0rem;
+            padding: 3rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--dsa-white);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* desktop: two columns, left=controls, right=chart */
+        .calculator-layout {
+            justify-content: center;
+            margin-left: 5px;
+            display: grid;
+            grid-template-columns: 6.5fr 3.5fr;
+            grid-template-areas: "controls chart";
+            column-gap: -10px;
+            margin-top: 2rem;
+            max-width: none;
+        }
+
+        .controls-and-results { 
+            grid-area: controls; 
+            border-radius: 10px;
+          }
+
+
+        /* Place the summary table in the controls column by default */
+        .summary-table-container {
+            grid-area: controls;
+        }
+        .switches {
+            flex-direction: row;
+            gap: 2rem;
+            margin-top: 0.5em;
+        }
+        .graph-wrapper {
+            grid-area: chart;
+            min-height: 500px;
+            height: 100%;
+            width: 96%;
+            background-color: var(--dsa-black);
+            border-radius: 10px;
+            margin-right: -1.2em;
+            margin-left: 0px;
+        }
+        /* Mobile / narrow screens: stack in order controls, chart, table */
+
+
+
+
+
+        .dsa-footer {
+            background: var(--dsa-gray-light);
+            color: var(--dsa-white);
+            padding: 3rem 1rem;
+        }
+
+        .dsa-footer .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .mininav {
+            display: none;
+        
+        }
+        h2, h3 {
+            color: var(--dsa-red);
+        }
+        h1 {
+          font-size: 15dvh;
+        }
+        button {
+            background: var(--dsa-red);
+            color: var(--dsa-white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .intro {
+            text-align: center;
+            margin-bottom: 2rem;
+            margin-top: 2rem;
+            max-width: 700px;
+        }
+
+
+        /* Dark mode overrides */
+        @media (prefers-color-scheme: dark) {
+          body {
+            background: var(--dsa-black) !important;
+            color: var(--dsa-white) !important;
+            border: 1px solid var(--dsa-white) !important;
+            box-shadow: none !important;
+            caret-color: var(--dsa-white) !important; 
+
+          }
+          .hero-subtitle {
+            color: var(--dsa-white) !important;
+          }
+          h1 {
+            color: var(--dsa-white);
+          }
+        }
+        @media (max-width: 768px) {
+            .site-header {
+              min-height: 7rem;
+            }
+            .intro {
+                text-align: center;
+                margin-top: 2rem;
+                margin-left: 1rem;
+                margin-right: 1rem;
+                margin-bottom: 2rem;
+                max-width: 90dvw;
+            }
+            .main-nav {
+                display: none;
+
+            }
+            h1 {
+                font-size: 6dvh;
+            }
+
+            .policy-summary-box {
+              grid-template-columns: 1fr !important;
+              margin-left: 10px !important;
+              margin-right: 10px !important;
+              margin-bottom: 10px !important;
+              row-gap: 2rem !important;
+              padding: 2rem !important;
+            }
+            .policy-col {
+              min-width: 0 !important;
+            }
+            .calculator-layout {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "chart"
+                    "table"
+                    "controls";
+                    gap: .1rem;
+                margin: .1em auto;}
+            .summary-table-container {
+                grid-area: table;
+                margin-top: 0.5rem;
+                width: 103%;
+                padding: 0px;
+                font-size: .5em;
+                margin: 0 auto;
+                row-gap: -.3em;
+            }
+            .controls-and-results {
+                font-size: .7em;
+            }
+            .graph-wrapper {
+                min-height: 420px;
+                width: 97%;
+                margin: 0;                
+            }
+            .inflation-sliders {
+                grid-area: table;
+                grid-template-columns: repeat(5, 1fr);
+                margin: .2em auto;
+
+            }
+            .inflation-sliders input[type="range"] {
+                display: none;
+            }
+            .slider-group label,
+            .slider-group .value-display {
+              font-size: 0.6rem;
+              gap: -.5em;
+              margin-top: -0.5em;
+              margin-bottom: -0.6em;
+            }
+            .help-text {
+              display: none;
+            }
+            .utilities-group {
+              display: flex;
+              flex-direction: column;
+              grid-template-rows: auto auto;
+              gap: 0.2rem;
+            }
+            .switches {
+              flex-direction: column;
+              gap: 0.5rem;
+              margin-top: -0.5em;}
+            .secondary-nav {
+              display: none;
+            }
+
+            .mininav {
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: .6rem;
+              margin-left: 170px;
+              margin-right: -18px;
+              margin-bottom: 0.5rem;
+              margin-top: -5rem;
+              color: var(--neon);
+              right: 3px !important;
+              justify-content: right !important;
+              text-align: center !important;
+              color: #000;
+            }          
+            .site-logo {
+              margin-left: -0.5rem !important;
+              height: 60px !important;
+              margin-top: 0.5rem !important;
+            } 
+
+      }
+
+        
+
+    </style>
+
+    <link href='https://actionnetwork.org/css/style-embed-v3.css' rel='stylesheet' type='text/css' />
+</head>
+<body>
+    <header class="site-header" role="banner">
+        <div class="header-container">
+            <div>
+                <a href="https://dsa-la.org" aria-label="DSA-LA Home">
+                    <img src="https://dsa-la.org/wp-content/uploads/2022/04/fixed.header.icon_.jpg" alt="DSA-LA Logo" style="margin-bottom: 10px;" class="site-logo" loading="lazy">
+                </a>
+            </div>
+            <nav class="main-nav" aria-label="Main navigation">
+                <a href="https://dsa-la.org">DSA-LA</a>
+                <a href="https://actionnetwork.org/forms/dsa-la-power-to-the-tenants-join-us">E-mail</a>
+                <a href="https://dsa-la.org/join-us-2" class="join-button">Unirse DSA-LA</a>
+                <a href="https://dsa-la.org/calendar">Calendario</a>
+                <a href="https://dsa-la.org/campaigns">Campañas</a>
+                <a href="https://dsa-la.org/about">Sobre Nosotros</a>
+                <a href="https://dsa-la.org/resources">Afiliación</a>
+                <a href="https://dsa-la.myshopify.com">Bienes</a>
+                <a href="https://dsa-la.auth0.com/login?state=hKFo2SBxOW9qSE80Q0NsTU55d00zcmxmVXVXNmFOaXBwR3RHRaFupWxvZ2luo3RpZNkgQUltUFJOX19QcFV3X3p0UHlsdl82QlcyS2luYlJ2MHKjY2lk2SA5NElHUzd4TzRIZkNlbEJ6cXU3VEZyemNvVDRrYktUZA">Acceso</a>
+            </nav>
+
+        </div>
+          <nav class="secondary-nav" aria-label="Secondary navigation" style="color: var(--dark-red); font-size: smaller; font-weight: 500; letter-spacing: 0.5px;">
+            <a href="/rent_calc.html">English 🇬🇧</a>
+            
+            <a href="https://www.keeplahoused.org/coalition">Coalición Keep LA Housed</a>
+            <a href="https://www.keeplahoused.org/larso-campaign">Campaña LA-RSO</a>
+            <a href="https://www.la-rso-2024.org/larsoproblems">LA-RSO Problemas</a>
+            <a href="https://www.la-rso-2024.org/larsoinfo">LA-RSO Información</a>
+            <a href="https://www.la-rso-2024.org/tenant-stories">Duenos Hablan</a>
+            <a href="https://www.keeplahoused.org/la-tbor">Derechos de Duenos</a>
+            
+          </nav>
+      
+        <nav class="mininav">
+            <a href="https://actionnetwork.org/forms/dsa-la-power-to-the-tenants-join-us">Boletín</a>
+            <a href="https://dsa-la.org/join-us-2" class="join-button">UnirseDSA</a>
+            <a href="https://www.la-rso-2024.org/larsoproblems">Problemas</a>
+            <a href="https://www.keeplahoused.org/larso-campaign">Campaña</a>
+            <a href="https://dsa-la.org/calendar">Calendario</a>
+            <a href="/rent_calc.html">Eng🇬🇧</a>
+
+
+
+
+        </nav>
+    </header>
+
+  <main id="main-content" role="main" aria-label="LA Rent Calculator Main Content">
+
+    <section class="hero" aria-label="LA Rent Calculator Hero Section">
+          <div style="display: flex; align-items: center; justify-content: center; margin-top: 4rem;">
+            <img
+              src="img/roseleft.gif" 
+              alt="Animated rose on the left" 
+              class="hero-image" 
+              loading="lazy"
+              style="height: 5em; width: auto; margin-left: 4rem; vertical-align: middle; display: inline-block;"
+            >
+            <h1 
+              style="margin: 0; display: flex; align-items: center; justify-content: center; width: 100%; text-align: center; line-height: 1;">
+              Calculador Alquiler LA
+            </h1>
+            <img 
+              src="img/roseright.gif" 
+              alt="Animated rose on the right" 
+              class="hero-image" 
+              loading="lazy"
+              style="height: 5em; width: auto; margin-right: 4rem; vertical-align: middle; display: inline-block;"
+            >
+          </div></section>
+                    <div style="display: flex; align-items: center; justify-content: center;">
+
+          <div class="intro">
+            <p class="hero-subtitle">Una de las tres posibles políticas de control de alquileres afectará su bolsillo durante los próximos cinco años. Este gráfico dinámico muestra nuestro plan junto con la RSO actual y la propuesta tibia del LAHD, favorable a los propietarios. Ingrese su alquiler mensual para visualizar los posibles aumentos de alquiler. 📈🔧</p>
+            </div></div>
+
+              <section class="calculator-layout">
+               <div class="controls-and-results" style="background-color: #000000; margin-right: 0px;">
+                 <form id="rent-calc" class="calculator-form" onsubmit="return false" aria-label="Rent Calculation Form">
+                  
+                  <div class="input-group">
+                  <div class="inflation-sliders" aria-label="Inflation Rate Sliders" role="group">
+                 
+                    <div class="slider-group">
+                      <label style="color: var(--dsa-white);" for="cpi-y1">2025</label>
+                      <input type="range" id="cpi-y1" min="-1" max="10" step="0.05" value="3.0" orient="vertical" aria-valuemin="-1" aria-valuemax="10" aria-valuenow="3.0" aria-label="Inflation Rate Year 1">
+                      <span class="value-display" id="cpi-y1-val" aria-live="polite">3.0%</span>
+                      <span class="value-display" id="slider-year-1" aria-live="polite">1980</span>
+                    </div>
+                    
+                    <div class="slider-group">
+                      <label style="color: var(--dsa-white);" for="cpi-y2">2026</label>
+                      <input type="range" id="cpi-y2" min="-1" max="10" step="0.05" value="3.0" orient="vertical" aria-valuemin="-1" aria-valuemax="10" aria-valuenow="3.0" aria-label="Inflation Rate Year 2">
+                      <span class="value-display" id="cpi-y2-val" aria-live="polite">3.0%</span>
+                      <span class="value-display" id="slider-year-2" aria-live="polite">1981</span>
+                    </div>
+                    
+                    <div class="slider-group">
+                      <label style="color: var(--dsa-white);" for="cpi-y3">2027</label>
+                      <input type="range" id="cpi-y3" min="-1" max="10" step="0.05" value="3.0" orient="vertical" aria-valuemin="-1" aria-valuemax="10" aria-valuenow="3.0" aria-label="Inflation Rate Year 3">
+                      <span class="value-display" id="cpi-y3-val" aria-live="polite">3.0%</span>
+                      <span class="value-display" id="slider-year-3" aria-live="polite">1982</span>
+                    </div>
+                    
+                    <div class="slider-group">
+                      <label style="color: var(--dsa-white);" for="cpi-y4">2028</label>
+                      <input type="range" id="cpi-y4" min="-1" max="10" step="0.05" value="3.0" orient="vertical" aria-valuemin="-1" aria-valuemax="10" aria-valuenow="3.0" aria-label="Inflation Rate Year 4">
+                      <span class="value-display" id="cpi-y4-val" aria-live="polite">3.0%</span>
+                      <span class="value-display" id="slider-year-4" aria-live="polite">1983</span>
+                    </div>
+                    
+                    <div class="slider-group">
+                      <label style="color: var(--dsa-white);" for="cpi-y5">2029</label>
+                      <input type="range" id="cpi-y5" min="-1" max="10" step="0.05" value="3.0" orient="vertical" aria-valuemin="-1" aria-valuemax="10" aria-valuenow="3.0" aria-label="Inflation Rate Year 5">
+                      <span class="value-display" id="cpi-y5-val" aria-live="polite">3.0%</span>
+                      <span class="value-display" id="slider-year-5" aria-live="polite">1984</span>
+                    </div>
+                  </div>
+
+                                     <div class="history" style="justify-content: center; align-items: center; width: 95%; margin-left: .2rem;"> 
+                    <div class="historical-selector" style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-top: 1rem; margin-bottom: 1rem;;" aria-label="Historical Inflation Year Selector">
+                     <label style="color: var(--dsa-white); margin-left: 8px;" for="historical-year-slider">Años históricos de inflación:</label>
+     <input type="range" 
+           id="historical-year-slider" 
+           min="1980" 
+           max="2023" 
+           step="1" 
+           value="1980">
+    <span class="value-display" id="historical-year-display">2000-2004</span>
+</div>
+                    <h2 style="text-align: center; color: var(--dsa-white); font-size: 1.5em;">Tasa de inflación (Consumer Price Index)</h2>
+                    <p style="color: var(--dsa-white); text-align: center;">Establezca las tasas de inflación anuales para crear un escenario hipotético que muestre cómo las diferentes políticas afectan su alquiler a lo largo del tiempo.</p></div>
+
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                    <label for="base-rent" style="text-align: center; font-size: 1.5em; color: var(--dsa-white);"><b>🌇💰Mi alquiler mensual actual es:</b>&nbsp;&nbsp;$</label>
+                      <input type="number" id="base-rent" name="base-rent" required min="0" step="1" value="2380" style="font-size: .9em; width: 7em; max-width: 220px; border-radius: 8px; border: 1px solid var(--dsa-white); background: var(--dark); color: var(--gold); margin-top: 0.5em;" aria-label="Current Monthly Rent">
+                      <span style="margin-left: 4%; font-size: 1.5em; color: var(--dsa-white); text-align: center;">&ndash; Anual: $<span id="current-annual" aria-live="polite"><span style="font-weight: bolder; color: var(--light-red);">28,560</span></span></span>
+                    </div>
+                  </div>
+                  
+                  <div class="utilities-group" style="align-items: center; justify-content: center; width: 98%;" aria-label="Utilities Options">
+                    <!-- Utilities included in rent (left column) -->
+                    <div style="flex: 1;">
+                      <h2 class="options-text" style="color: var(--dsa-white); font-size: 1.5em;">¿Servicios incluidos en alquiler?</h2>
+                      <div class="switches" style="display: flex; align-items: center; justify-content: center;">
+                      <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; color: var(--dsa-white); gap: 3em;">
+                        <label style="text-align: center;"><input type="radio" name="gas" value="yes">🔥✅<br>Gas incluido</label>
+                        <label style="text-align: center; color: var(--light-red);"><input type="radio" name="gas" value="no" checked>🔥🚫<br>Gas no incluido</label>
+                      </div>
+                      <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; color: var(--dsa-white); gap: 3em;">
+                        <label style="text-align: center;"><input type="radio" name="electric" value="yes">🔌✅<br>Electricidad incluida en alquiler</label>
+                        <label style="text-align: center; color: var(--light-red);"><input type="radio" name="electric" value="no" checked>🔌🚫<br>Electricidad no incluida</label>
+                      </div>
+                      </div>
+                    </div>
+                    <!-- LAHD "Rent Banking" (right column) -->
+                    <div style="flex: 1;">
+                      <h2 class="options-text" style="color: var(--dsa-white); font-size: 1.5em;">LAHD "Alquiler Bancario"</h2>
+                      <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                        <label style="text-align: center;"><input type="radio" name="lahd-banking" value="yes" checked><br>💸Sí😥</label>
+                        <label style="margin-left: 3em; text-align: center; color: var(--light-red);"><input type="radio" name="lahd-banking" value="no"><br>🏡No😎</label>
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                </form>
+
+                <div class="results" style="margin-top: .1rem;" aria-label="Calculation Results" role="region">
+                  <div class="results-grid">
+                    <div class="result-column">
+                      <h3 style="color: var(--light-green);">
+                        Plan Keep LA Housed
+                        <span class="tooltip" title="60% of CPI, max 3% annually">ℹ️</span>
+                      </h3>
+                      <p style="color: var(--dsa-white);">2026<span id="dsa-1y"></span></p>
+                      <p style="color: var(--dsa-white);">2027<span id="dsa-2y"></span></p>
+                      <p style="color: var(--dsa-white);">2028<span id="dsa-3y"></span></p>
+                      <p style="color: var(--dsa-white);">2029<span id="dsa-4y"></span></p>
+                      <p style="color: var(--dsa-white);">2030<span id="dsa-5y"></span></p>
+                    </div>
+                    <div class="result-column">
+                      <h3 style="color: var(--light-red);">
+                        RSO Vigente
+                        <span class="tooltip" title="100% of CPI, min 3%, max 8% + utilities">ℹ️</span>
+                      </h3>
+                      <p style="color: var(--dsa-white);">2026<span id="rso-1y"></span></p>
+                      <p style="color: var(--dsa-white);">2027<span id="rso-2y"></span></p>
+                      <p style="color: var(--dsa-white);">2028<span id="rso-3y"></span></p>
+                      <p style="color: var(--dsa-white);">2029<span id="rso-4y"></span></p>
+                      <p style="color: var(--dsa-white);">2030<span id="rso-5y"></span></p>
+                    </div>
+                    <div class="result-column">
+                      <h3 style="color: var(--light-gold);">
+                        Propuesta de LAHD
+                        <span class="tooltip" title="Min 2%, max 5% + banking">ℹ️</span>
+                      </h3>
+                      <p style="color: var(--dsa-white);">2026<span id="lahd-1y"></span></p>
+                      <p style="color: var(--dsa-white);">2027<span id="lahd-2y"></span></p>
+                      <p style="color: var(--dsa-white);">2028<span id="lahd-3y"></span></p>
+                      <p style="color: var(--dsa-white);">2029<span id="lahd-4y"></span></p>
+                      <p style="color: var(--dsa-white);">2030<span id="lahd-5y"></span></p>
+                    </div>
+                  </div>
+                <div class="help-text" style="font-size: 0.9em; color: var(--light); margin: 0.5rem 0; text-align: center;">
+                  Keyboard shortcuts: Use ←/→ to switch between years, ↑/↓ to adjust values
+                </div>
+
+                </div>
+
+
+                <!-- summary table moved below (sibling) so we can reorder responsively -->
+               </div>
+               
+              <div aria-label="Rent Increase Comparison Graph" role="region">
+                <div class="graph-wrapper">
+                    <canvas id="rentGraph" aria-label="Rent Increase Line Chart" role="img"></canvas>
+                </div>
+              </div>
+              <!-- summary table is a sibling so CSS grid can place it in the left column on desktop and below on mobile -->
+              <div class="summary-table-container" aria-label="Yearly Rent Comparison Table" role="region";>
+                <table id="summary-table" class="summary-table" style="width: 95%; border-collapse:collapse; background:var(--dark-blue); color:var(--white); overflow:hidden;" aria-describedby="summary-table-caption">
+                  <thead>
+                    <tr style="background:var(--dark);">
+                      <th style="padding:0.5em;">Year</th>
+                      <th style="padding:0.5em; color: var(--light-green)">Plan Keep LA Housed</th>
+                      <th style="padding:0.5em; color: var(--light-red);">RSO Vigente</th>
+                      <th style="padding:0.5em; color: var(--light-gold);">Propuesta de LAHD</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>2026</td>
+                      <td id="summary-dsa-1"></td>
+                      <td id="summary-rso-1"></td>
+                      <td id="summary-lahd-1"></td>
+                    </tr>
+                    <tr>
+                      <td>2027</td>
+                      <td id="summary-dsa-2"></td>
+                      <td id="summary-rso-2"></td>
+                      <td id="summary-lahd-2"></td>
+                    </tr>
+                    <tr>
+                      <td>2028</td>
+                      <td id="summary-dsa-3"></td>
+                      <td id="summary-rso-3"></td>
+                      <td id="summary-lahd-3"></td>
+                    </tr>
+                    <tr>
+                      <td>2029</td>
+                      <td id="summary-dsa-4"></td>
+                      <td id="summary-rso-4"></td>
+                      <td id="summary-lahd-4"></td>
+                    </tr>
+                    <tr>
+                      <td>2030</td>
+                      <td id="summary-dsa-5"></td>
+                      <td id="summary-rso-5"></td>
+                      <td id="summary-lahd-5"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              </div>
+              </div>
+              </div>
+    </section>
+
+<section>
+
+
+          <div style="display: flex; align-items: center; justify-content: center; gap: .2rem; margin-top: 7rem; margin-bottom: 1rem;">
+            <p style="margin: 0; font-size: 7.5dvw; display: flex; align-items: center; justify-content: center; text-align: center; line-height: 1; margin-left: 3%;">⬇️</p>
+            <div style="max-width: 70dvw; align-items: center; text-align: center; background: var(--light-blue); border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.18); padding: 1rem;" aria-label="Call to Action to Write to City Council" role="region">  
+            <h3 style="font-size: 3dvw; text-align: center; color: var(--red); padding: 0.3rem;"><b>Tienes Voz:</b> ¡Pegue su alquiler futuro en esta carta a su concejal de la ciudad ahora mismo!</h3>
+              <button id="copymyfuturerent" style="background: var(--dsa-white); color: var(--dsa-gray); border-color: var(--dsa-gray); border-style: dotted; border-width: 2px; border-radius: 50px; padding: 0.5rem 1.5rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5em; margin-bottom: 2dvh; font-size: 2.5dvw;">
+              
+              <img src="/icons/copy.svg" style="height: 2em; vertical-align: middle;">
+              <div style="display: inline-block; vertical-align: middle; text-align: center; margin-left: 0.5em; max-width: 85%;">copiar números de alquiler al portapapeles</div>
+              <img src="/icons/copy.svg" style="height: 2em; vertical-align: middle; margin-left: 5px;"></button></div> 
+            <p style="margin: 0; font-size: 7.5dvw; display: flex; align-items: center; justify-content: center; text-align: center; line-height: 1; margin-right: 3%;">⬇️</p>
+          </div>
+
+
+
+
+
+
+
+
+          </div>
+
+          </section>
+<div id='can-letter-area-tell-your-councilmember-why-we-need-stronger-rent-control-in-la' style='width: 100%'><!-- this div is the target for our HTML insertion --></div>
+
+
+
+            <section class="tagline" style="align-items: center; justify-items: center; display: flex; flex-direction: column; gap: 1.5rem; padding: 0 1rem;"> 
+               <ul style="list-style-type: disc ; padding: 1em; margin: 0; text-align: center; font-size: 1.5em; color: var(--dsa-black); margin-left: 1em; margin-right: 1em; text-align: left; justify-content: center; align-items: center;">
+
+            <li><b>Paso 1:</b> Ingrese su alquiler mensual actual y establezca tasas de inflación de ejemplo con el control deslizante</li>
+            <li><b>Paso 2:</b> Toque el botón blanco "COPIAR" para colocar sus futuros números de alquiler en su portapapeles</li>
+            <li><b>Paso 3:</b> Toque el botón rojo "Start Writing" y complete los espacios en blanco</li>
+            <li><b>Paso 4:</b> Cuando se abra la carta, pegue los números de alquiler en la carta y envíela a su concejal</li>
+              </ul>
+                                        <p style="text-align: center; font-size: 1.5em; margin-top: 0; margin-bottom: 15rem; max-width: 80%;">Si no ve el botón "comenzar a escribir", navegue hasta el<a href="https://actionnetwork.org/letters/tell-your-councilmember-why-we-need-stronger-rent-control-in-la" style="color: var(--dsa-red); text-decoration: underline;">✍️ página de escritura de cartas</a>. Cuando haga clic y llegue a la carta, pegue sus números de alquiler personalizados y "envíelos" para mostrarles a quienes están en el poder cuánto nos costarán sus decisiones.</p>            
+
+            </section>
+                      <div class="policy-summary-box" aria-label="Policy Summary Table" role="region">
+            <div class="policy-col" style="flex: 1;">
+              <p style="color: var(--dsa-black); font-weight: bold; font-size: 1.5em;">Plan Keep LA Housed</p>
+              <p style="color: var(--dsa-black); text-shadow: 0 0 2px var(--dsa-white), 0 0 4px var(--dsa-white), 0 0 6px var(--dsa-white), 0 0 8px var(--light-green);">El <b>Plan Keep LA Housed</b> está diseñado para ofrecer un enfoque transparente a los aumentos de alquiler, garantizando la protección de los inquilinos contra aumentos excesivos y permitiendo ajustes justos basados ​​en el 60 % de la inflación, con un aumento anual máximo del 3 %. Nuestra propuesta se aplicaría a todas las unidades de alquiler.</p>
+            </div>
+            <div class="policy-col" style="flex: 1;">
+              <p style="color: var(--dsa-black); font-weight: bold; font-size: 1.5em;">La RSO Vigente</p>
+              <p style="color: var(--dsa-black); text-shadow: 0 0 2px var(--dsa-white), 0 0 4px var(--dsa-white), 0 0 6px var(--dsa-white), 0 0 8px var(--light-green);">La <b>Ordenanza de Estabilización de Alquileres vigente</b> permite aumentos de alquiler equivalentes al 100 % del IPC (Índice de Precios al Consumidor). La Ordenanza de Estabilización de Alquileres vigente también establece un aumento mínimo del 3 % y máximo del 8 % anual, más un 1 % para el gas y/o un 1 % para la electricidad cada año. Las viviendas unifamiliares, los condominios y los edificios construidos después de 1978 están exentos de estos límites.</p>
+            </div>
+            <div class="policy-col" style="flex: 1;">
+              <p style="color: var(--dsa-black); font-weight: bold; font-size: 1.5em;">Propuesta de LAHD</p>
+              <p style="color: var(--dsa-black); text-shadow: 0 0 2px var(--dsa-white), 0 0 4px var(--dsa-white), 0 0 6px var(--dsa-white), 0 0 8px var(--light-green);">La <b>propuesta del Departamento de Vivienda de Los Ángeles</b> (LAHD) permite un aumento mínimo del 2% y un máximo del 5% anual, con la opción de acumular los aumentos no utilizados para años posteriores. Esto significa que los inquilinos terminan pagando más incluso cuando la inflación baja año tras año. ¿Por qué el LAHD protege a los arrendadores de la inflación?</p>
+            </div>
+          </div>
+            <h2 style="font-size: 3.2dvw; font-weight: bold; text-align: center; font-family: 'Chakra Petch'; color: var(--red); padding: 1rem;">"¡Un control de alquiler más fuerte es dinero en tu bolsita!"</h2>
+<div style="justify-content: center; align-items: center; font-size: 0.8em; color: var(--light); margin-bottom: 2rem;">
+          <div id="social-share" style="display: grid; gap: 1rem; margin-bottom: 2rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); justify-items: center; align-items: center;" aria-label="Social Share Buttons" role="region">
+            <button id="shareCalculation" style="display: block; margin: 1rem auto; padding: 0.75rem 1.5rem; background: var(--neon); color: var(--dark); border: none; cursor: pointer; text-transform: uppercase; font-weight: bold; border-radius: 50px;">Copia URL de alquiler</button>
+
+            <button id="twitterShare" style="background: #074368; color: #fff; border: none; border-radius: 50px; padding: 0.5rem 1.5rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 0.5em;">
+              <img src="/icons/x.png" style="height: 1.2em; vertical-align: middle;"> Mandar en X/Twitter
+            </button>
+            <button id="facebookShare" style="background: #2b4c8e; color: #fff; border: none; border-radius: 50px; padding: 0.5rem 1.5rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 0.5em;">
+              <img src="/icons/facebook.png" style="height: 1.2em; vertical-align: middle;"> Mandar en Facebook
+            </button>
+            <button id="emailShare" style="background: var(--dark); color: #fff; border: none; border-radius: 50px; padding: 0.5rem 1.5rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 0.5em;">
+              <img src="/icons/gmail.png" style="height: 1.2em; vertical-align: middle;"> Mandar via Email
+            </button>
+            <button id="whatsappShare" style="background: #0b411e; color: #fff; border: none; border-radius: 50px; padding: 0.5rem 1.5rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 0.5em;">
+              <img src="/icons/whatsapp.png" style="height: 1.2em; vertical-align: middle;"> Mandar en WhatsApp
+            </button>
+            <a href="https://www.instagram.com/dsa_la" style="background: var(--light-blue); color: var(--dsa-black); border: none; border-radius: 50px; padding: 0.5rem 1.5rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 0.5em; text-decoration: none;">
+              <img src="/icons/ig.png" alt="Instagram" style="height: 1.2em; vertical-align: middle;">Seguemos en Instagram</a>
+            <a href="https://www.facebook.com/DSALosAngeles/" style="background: #2b4c8e; color: #fff; border: none; border-radius: 50px; padding: 0.5rem 1.5rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 0.5em; text-decoration: none;">
+              <img src="/icons/facebook.png" style="height: 1.2em; vertical-align: middle;">Sigue en Facebook</a> 
+            <a href="https://twitter.com/DSA_LosAngeles" style="background: #074368; color: #fff; border: none; border-radius: 50px; padding: 0.5rem 1.5rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 0.5em; text-decoration: none;">
+              <img src="/icons/x.png" style="height: 1.2em; vertical-align: middle;">Sigue en X/Twitter</a>              
+            <a href="https://www.tiktok.com/@dsa_la" style="background: #cfcfc8; border-color: #000; border-width: 2px; color: var(--dsa-black); border-radius: 1px; padding: 0.5rem 1.5rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 0.5em; text-decoration: none;">
+              <img src="/icons/tiktok.webp" style="height: 1.2em; vertical-align: middle;">Sigue en TikTok</a>  
+                        <a href="https://signal.org/install" style="background: #cfcfc8; color: #3a76f0; border-color: #3a76f0; border-width: 2px; border-radius: 50px; padding: 0.5rem 1.5rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 0.5em; text-decoration: none;">
+              Instalar<img src="/icons/signal.png" style="height: 1.2em; vertical-align: middle;"></a> 
+              <a href="https://dsa-la.org/join-us-2" style="background: #000; color: var(--light-red); border: none; border-radius: 50px; padding: 0.5rem 1.5rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 0.5em; text-decoration: none;">🌹 Unirse DSA-LA</a>              
+            <a href="/rent_calc.html" style="background: #cfcfc8; border-color: #000; border-width: 2px; color: var(--dsa-black); border-radius: 1px; padding: 0.5rem 1.5rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 0.5em; text-decoration: none;">
+              🇬🇧 English Version</a>  
+
+          </div></div>
+    <section style="padding: 2rem; background: var(--dsa-black);">
+      <h2 style="font-family: 'Chakra Petch'; text-align: center; margin-bottom: 3rem; color: var(--dsa-white);">Empoderar a los inquilinos, un cálculo a la vez</h2>
+      <p style="color: var(--dsa-white);">Utilice esta herramienta para comprender cómo las diferentes políticas afectan su renta a lo largo del tiempo. Para obtener más información sobre el plan Keep LA Housed, visite <a href="https://www.la-rso-2024.org/larsoproblems" style="color: var(--green); text-decoration: underline;">CapTheRentLA.</a> En la Coalición Keep LA Housed y DSA-LA, creemos que todos los inquilinos merecen ver cómo se compara el plan Keep LA Housed con la RSO actual y la propuesta del LAHD.</p>
+        <div style="text-align: center;">        <button style="font-family: 'Chakra Petch'; text-align: center; margin-bottom: 1rem; margin-top: 1rem; background-color: var(--light-red); font-size: 2rem; border-radius: 50px;"><a href="https://dsa-la.org/power-to-the-tenants/">¡Únete al poder de las inquilinas!</a></button></div>
+ </section>
+    <section class="about" style="padding: 2rem; background: var(--dsa-red); color: var(--dsa-white);">
+      <h2 style="font-family: 'Chakra Petch'; text-align: center; margin-bottom: 3rem; color: var(--dsa-white);">Acerca del plan Keep LA Housed</h2><ul>
+      <li>El plan Keep Los Angeles Housed fue creado por la Coalición Keep LA Housed, DSA-LA y <b>¡inquilinos habituales como usted!</b></li>
+      <li>El plan de la Coalición Keep Los Angeles Housed tiene como objetivo proporcionar un enfoque justo y transparente a los aumentos de alquiler en Los Ángeles, garantizando que los inquilinos estén protegidos de aumentos excesivos y permitiendo al mismo tiempo algunos ajustes razonables en función de la inflación.</li>
+      <li>El plan se aplicaría a todas las unidades de alquiler, incluidas las viviendas unifamiliares y los condominios, que actualmente están exentos según la Ordenanza de Estabilización de Alquileres (RSO) vigente.</li>
+      <li>El plan propone limitar los aumentos de alquiler al 60% del Índice de Precios al Consumidor (IPC), con un aumento anual máximo del 3%. Esto significa que, si la inflación es baja, los aumentos de alquiler serán mínimos, y si la inflación es alta, se mantendrán a un nivel razonable.</li>
+      <li>El plan Keep LA Housed también incluye disposiciones para evitar que los propietarios desalojen a los inquilinos para aumentar los alquileres, así como medidas para garantizar que los inquilinos estén informados sobre sus derechos y tengan acceso a recursos de asistencia legal.</li>
+      <li>La Coalición Keep LA Housed está formada por un <a href="https://www.keeplahoused.org/coalition" style="color: var(--green); text-decoration: underline;"><b>grupo diverso de organizaciones e individuos</b></a> comprometidos a luchar por la vivienda asequible y los derechos de los inquilinos en Los Ángeles.</li>
+      <li>Creemos que todos merecen un lugar seguro y estable al que llamar hogar, y estamos trabajando para que eso sea una realidad para todos los angelinos.</li>
+      <li>Creemos que ha llegado el momento de que el Ayuntamiento de Los Ángeles adopte una política de control de alquileres que priorice a los inquilinos y garantice que todos tengan acceso a una vivienda asequible.</li>
+    </ul>
+    </section>
+    <section class="info" style="padding: 2rem; background: var(--dsa-black); color: var(--dsa-white);">
+      <h2 style="font-family: 'Chakra Petch'; text-align: center; margin-bottom: 3rem; color: var(--dsa-white);">Acerca de esta página</h2>
+      <p>🌎 Vistas totales de página: <span id="pageViews">Loading...</span> - Esta es una página de prueba beta para una calculadora de alquiler, todavía es un trabajo en progreso, si tiene algún comentario o sugerencia, comuníquese con nosotros en <a href="mailto:edkeenan@protonmail.com" style="color: var(--light-gold); text-decoration: underline;">edkeenan@protonmail.com</a></p>
+    </section>
+    <section class="resources" style="padding: 2rem; background: var(--dsa-white); color: var(--dsa-black);">
+      <h2 style="font-family: 'Chakra Petch'; text-align: center; margin-bottom: 3rem; color: var(--dsa-black);">Recursos</h2>
+      <ul>
+        <li><a href="https://dsa-la.org" target="_blank" style="color: var(--dark-green); text-decoration: underline;">Socialistas Democráticos de America - Los Angeles (DSA-LA)</a></li>
+        <li><a href="https://captherentla.org" target="_blank" style="color: var(--dark-green); text-decoration: underline;">Limitar el alquiler en Los Ángeles - Cap The Rent LA</a></li>
+        <li><a href="https://housing.lacity.gov" target="_blank" style="color: var(--dark-green); text-decoration: underline;">Departamento de Vivienda de Los Ángeles (LAHD)</a></li>
+        <li><a href="https://keeplahoused.org/" style="color: var(--dark-green); text-decoration: underline;">Coalición para mantener a Los Ángeles con vivienda (KLAH)</a></li>
+      </ul></section>
+           
+
+                              <div style="display: grid; gap: 1rem; margin-bottom: 2rem; justify-items: center; align-items: center;" role="region"><a href="https://dsa-la.org/"><img src="/img/rotating_rose.gif" alt="DSA-LA"></a></div><div style="display: flex; justify-content: center; margin: 2rem 0;">
+              <div id="fb-root" style="background: #f5f5f5; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 1.5rem 2rem; display: flex; flex-direction: column; align-items: left; width: 100%;">
+                <div class="fb-like" 
+                  data-href="https://www.facebook.com/DSALosAngeles" 
+                  data-width="" 
+                  data-layout="standard" 
+                  data-action="like" 
+                  data-size="large" 
+                  data-share="true">
+                </div>
+              </div>
+            </div>
+        <section id="dsalist" aria-label="Join DSA Mailing List">
+      <div class="anform-container" style="background: var(--dsa-black); padding: 2rem;">
+        <div style="text-align: center;">
+
+          
+          <h2 style="font-family: 'Chakra Petch'; text-align: center; margin-top: 2rem; color: var(--dsa-white); font-size: 2rem;">¿No vives en Los Ángeles?</h2>
+
+          <button style="font-family: 'Chakra Petch'; text-align: center; margin-bottom: 2rem; background-color: var(--light-red); font-size: 2rem; border-radius: 50px;"><a href="https://chapters.dsausa.org">encuentra tu chapter local</a></button>
+
+        </div>
+      </div>
+    </section> 
+  </main>
+
+
+
+    <footer class="dsa-footer" role="contentinfo" aria-label="Site Footer">
+        <div class="footer-content">
+            <div>
+                <h3>Socialistas Demócratas de América</h3>
+                <p>Chapter Los Ángeles</p>
+            </div>
+            <div>
+                <h4>Enlaces</h4>
+                <ul>
+                    <li><a href="https://dsa-la.org/about">Sigue Nosotros</a></li>
+                    <li><a href="https://dsa-la.org/campaigns">Campañas</a></li>
+                    <li><a href="https://dsa-la.org/calendar">Calendario</a></li>
+                    <li><a href="https://dsa-la.org/join-us-2">Unirse DSA-LA</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Conectamos</h4>
+                <ul>
+                    <li><a href="https://twitter.com/DSA_LosAngeles">X/Twitter</a></li>
+                    <li><a href="https://www.instagram.com/dsa_la/">Instagram</a></li>
+                    <li><a href="https://www.facebook.com/DSALosAngeles">Facebook</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="rc_js/modules/calculations.js"></script>
+  <script type="module" src="rc_js/modules/historical.js"></script>
+  <script type="module" src="rc_js/rent_calc.js"></script>
+  <script type="module" src="rc_js/ui_events.js"></script>
+  <script src='https://actionnetwork.org/widgets/v4/letter/tell-your-councilmember-why-we-need-stronger-rent-control-in-la?format=js&source=widget'></script>
+</body>
+</html>
